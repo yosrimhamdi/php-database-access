@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$userName = $_POST["user_name"];
-$userAge = $_POST["user_age"];
-
 $con = mysqli_connect("localhost", "root", "", "testing");
+
+$userName = mysqli_real_escape_string($con, $_POST["user_name"]);
+$userAge = mysqli_real_escape_string($con, $_POST["user_age"]);
 
 $sql = "INSERT INTO users(name, age) ";
 $sql .= "VALUES('$userName', $userAge)";
