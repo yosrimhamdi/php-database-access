@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 $con = mysqli_connect("localhost", "root", "", "testing");
 
@@ -11,12 +10,4 @@ $sql .= "VALUES('$userName', $userAge)";
 
 $result = mysqli_query($con, $sql);
 
-if ($result) {
-  $_SESSION["status"] = "success";
-  $_SESSION["message"] = "all good man!";
-} else {
-  $_SESSION["status"] = "danger";
-  $_SESSION["message"] = "something went wrong!";
-}
-
-header("Location: /");
+require __DIR__ . "/redirect.php";

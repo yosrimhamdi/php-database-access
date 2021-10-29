@@ -35,7 +35,7 @@ session_destroy();
 
   <body>
     <form
-      action="/submit.php"
+      action="/submit-prep-state.php"
       method="POST"
     >
       <p>User Name:</p>
