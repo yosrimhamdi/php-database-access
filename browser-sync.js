@@ -1,6 +1,6 @@
 const browserSync = require("browser-sync").create();
 
 browserSync.init({
-  files: "index.php",
+  files: "*.php",
   notify: false,
 });

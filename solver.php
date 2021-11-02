@@ -21,16 +21,53 @@ function evaluate($a, $b, $c) {
   }
 }
 
-function getCoefficient($powerOf, $coefficients, $signs, $powerIndicator) {
-  $indexOfCoefficient = array_search($powerOf, $powerIndicator);
-  $coefficient = intval($coefficients[$indexOfCoefficient]);
-  $sign = $signs[$indexOfCoefficient];
+// "/([-+]?)(\d+)?(x\^2|x|[-+]?|$)/"
 
-  if ($sign === "-") {
-    return -1 * $coefficient;
+function getA($equation) {
+  preg_match("/([-+]?)(\d+)x\^2/", $equation, $parts);
+
+  echo "<pre>";
+  print_r($parts);
+  echo "</pre>";
+
+  if ($parts[1] === "-") {
+    return -1 * intval($parts[2]);
   }
 
-  return $coefficient;
+  return $parts[2];
+}
+
+function getB($equation) {
+  // 3x^2 + 5 - 2x
+  preg_match("/([-+]?)(\d+)x([^\^]|$)/", $equation, $parts);
+
+  echo "<pre>";
+  print_r($parts);
+  echo "</pre>";
+
+  if ($parts[1] === "-") {
+    return -1 * intval($parts[2]);
+  }
+
+  return $parts[2];
+}
+
+function getC($equation) {
+  preg_match("/([-+]?)[^\^](\d+)($|[-+])/", $equation, $parts);
+
+  echo "<pre>";
+  print_r($parts);
+  echo "</pre>";
+
+  if (!$parts) {
+    return 0;
+  }
+
+  if ($parts[1] === "-") {
+    return -1 * intval($parts[2]);
+  }
+
+  return $parts[2];
 }
 
 function solveQuadraticEquation($equation) {
@@ -38,19 +75,9 @@ function solveQuadraticEquation($equation) {
 
   $equation = str_replace(" ", "", $equation);
 
-  preg_match_all("/([-+]?)(\d+)(x\^2|x|[-+]?|$)/", $equation, $parts);
-
-  $signs = $parts[1];
-  $coefficients = $parts[2];
-  $powerIndicator = $parts[3];
-
-  echo "<pre>";
-  print_r($parts);
-  echo "</pre>";
-
-  $a = getCoefficient("x^2", $coefficients, $signs, $powerIndicator);
-  $b = getCoefficient("x", $coefficients, $signs, $powerIndicator);
-  $c = getCoefficient("", $coefficients, $signs, $powerIndicator);
+  $a = getA($equation);
+  $b = getB($equation);
+  $c = getC($equation);
 
   pr("a = $a");
   pr("b = $b");
@@ -59,6 +86,4 @@ function solveQuadraticEquation($equation) {
   evaluate($a, $b, $c);
 }
 
-if (isset($_POST["submit"])) {
-  solveQuadraticEquation($_POST["equation"]);
-}
+solveQuadraticEquation("2x + 3x^2");
