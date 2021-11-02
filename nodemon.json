@@ -1,4 +1,0 @@
-{
-  "watch": "index.php",
-  "exec": "php index.php"
-}
