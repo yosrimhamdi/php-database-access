@@ -1,50 +1,43 @@
-<?php
-require_once __DIR__ . "/browser-sync.php";
+<?php require_once __DIR__ . "/solver.php"; ?>
 
-function pr($str) {
-  echo "$str <br>";
-}
+<!DOCTYPE html>
+<html lang="en">
 
-function evaluate($a, $b, $c) {
-  $delta = sqrt($b) - 4 * $a * $c;
-}
+  <head>
+    <meta charset="UTF-8">
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge"
+    >
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    >
+    <title>Test</title>
+  </head>
 
-function getCoefficient($powerOf, $coefficients, $signs, $powerIndicator) {
-  $indexOfCoefficient = array_search($powerOf, $powerIndicator);
-  $coefficient = intval($coefficients[$indexOfCoefficient]);
-  $sign = $signs[$indexOfCoefficient];
+  <body>
+    <form
+      action="/"
+      method="POST"
+    >
+      <input
+        type="text"
+        name="equation"
+      >
+      <input
+        type="submit"
+        name="submit"
+        value="submit"
+      >
+    </form>
+    <script id="__bs_script__">
+    //<![CDATA[
+    document.write(
+      "<script async src='http://HOST:3001/browser-sync/browser-sync-client.js?v=2.27.7'><\/script>"
+      .replace("HOST", location.hostname));
+    //]]>
+    </script>
+  </body>
 
-  if ($sign === "-") {
-    return -1 * $coefficient;
-  }
-
-  return $coefficient;
-}
-
-function solveQuadraticEquation($equation) {
-  pr($equation);
-
-  $equation = str_replace(" ", "", $equation);
-
-  preg_match_all("/([-+]?)(\d+)(x\^2|x|[-+]?|$)/", $equation, $parts);
-
-  $signs = $parts[1];
-  $coefficients = $parts[2];
-  $powerIndicator = $parts[3];
-
-  echo "<pre>";
-  print_r($parts);
-  echo "</pre>";
-
-  $a = getCoefficient("x^2", $coefficients, $signs, $powerIndicator);
-  $b = getCoefficient("x", $coefficients, $signs, $powerIndicator);
-  $c = getCoefficient("", $coefficients, $signs, $powerIndicator);
-
-  pr("a = $a");
-  pr("b = $b");
-  pr("c = $c");
-
-  evaluate($a, $b, $c);
-}
-
-solveQuadraticEquation("8x^2 - 4x + 1");
+</html>
